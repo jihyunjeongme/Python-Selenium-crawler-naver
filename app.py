@@ -1,5 +1,8 @@
-from selenium import webdriver
 import time
+import random
+from selenium import webdriver
+from bs4 import BeautifulSoup
+
 
 ## Selenium methods
 # URL에 접근하는 api,
@@ -41,9 +44,24 @@ driver.implicitly_wait(3)
 driver.get("https://nid.naver.com/nidlogin.login")
 
 time.sleep(3.5)
+
 ## 아이디/비밀번호를 입력해준다.
-driver.find_element_by_name("id").send_keys("stothyuni")
-driver.find_element_by_name("pw").send_keys("gosdkdi1")
+driver.find_element_by_name("id").send_keys("stothyuni***")
+time.sleep(2 + random.random() * 0.3)
+
+driver.find_element_by_name("pw").send_keys("gosd**kdi1***")
+time.sleep(4)
 
 ## 로그인 버튼을 눌러주자.
-# driver.find_element_by_xpath('//*[@id="frmNIDLogin"]/fieldset/input').click()
+driver.find_element_by_xpath('//*[@id="frmNIDLogin"]/fieldset/input').click()
+time.sleep(2)
+
+# Naver 페이 들어가기
+driver.get("https://order.pay.naver.com/home")
+html = driver.page_source
+soup = BeautifulSoup(html, "html.parser")
+notices = soup.select("div.p_inr > div.p_info > a > span")
+
+for n in notices:
+    print(n.text.strip())
+time.sleep(2)
